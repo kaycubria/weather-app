@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html ng-app="weather">
+    <head>
+        <link href="resources/styles/style.css" rel="stylesheet" type="text/css">
+    </head>
+    <body>
+        <div class="weather-app-container">
+            <div ng-view></div>
+        </div>
+        <script src="bower_components/angular/angular.js"></script>
+        <script src="bower_components/angular-route/angular-route.js"></script>
+        <script src="bower_components/ngGeolocation/ngGeolocation.js"></script>
+        <script src="scripts/weather.module.js"></script>
+        <script src="scripts/weather.forecast.controller.js"></script>
+        <script src="scripts/services/weather/weather.service.js"></script>
+    </body>
+</html>

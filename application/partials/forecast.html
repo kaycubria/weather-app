@@ -1,0 +1,10 @@
+<div class="forecast-container">
+    <div ng-controller="ForecastController as ForecastVM">
+        <div class="waiting" ng-if="!ForecastVM.weatherData">
+            <h1>Waiting for Data</h1>
+        </div>
+        <div class="data-arrived" ng-if="ForecastVM.weatherData">
+            <h1>{{ForecastVM.weatherData}}</h1>
+        </div>
+    <div>
+</div>
