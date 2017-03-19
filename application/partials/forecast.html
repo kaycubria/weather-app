@@ -1,10 +1,25 @@
 <div class="forecast-container">
-    <div ng-controller="ForecastController as ForecastVM">
-        <div class="waiting" ng-if="!ForecastVM.weatherData">
-            <h1>Waiting for Data</h1>
+    <div ng-controller="ForecastController as forecastVM">
+        <div class="col-xs-12 top-bar">
+            <div class="app-name">
+                <h4>WeatherApp</h4>
+            </div>
+            <div class="zip-form pull-right">
+                <form class="form-inline" name="zip">
+                    <div class="form-group">
+                        <label>Zipcode:</label>
+                        <input type="text" ng-model="forecastVM.zip" class="form-control" id="input" maxlength="5" name="input" ng-pattern="forecastVM.zipRegex">
+                    </div>
+                    <button class="btn btn-default" ng-click="forecastVM.getWeatherByZip()">Submit</button>
+                    <p class="text-danger" ng-show="zip.input.$error.pattern && zip.input.$touched">Please enter a valid U.S. zipcode.</p>
+                </form>
+            </div>
         </div>
-        <div class="data-arrived" ng-if="ForecastVM.weatherData">
-            <h1>{{ForecastVM.weatherData}}</h1>
+        <div class="waiting col-xs-12" ng-if="!forecastVM.weatherData">
+            <div class="loading"></div>
+        </div>
+        <div class="data-arrived col-xs-12" ng-if="forecastVM.weatherData">
+            <h3>{{forecastVM.weatherData}}</h3>
         </div>
     <div>
 </div>

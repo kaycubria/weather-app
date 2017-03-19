@@ -10,10 +10,14 @@
         vm.latitude;
         vm.longitude;
         vm.weatherData;
+        vm.zipRegex = new RegExp(/^\d{5}$/)
 
+        vm.init = init;
         vm.getLocation = getLocation;
+        vm.getWeatherByZip = getWeatherByZip;
+        vm.getWeatherFromUserGeoCoords = getWeatherFromUserGeoCoords;
 
-        init();
+        vm.init();
 
         function init() {
             getLocation();
@@ -25,26 +29,35 @@
                     vm.latitude = position.coords.latitude;
                     vm.longitude = position.coords.longitude;
 
-                    getUsersCurrentWeather();
+                    getWeatherFromUserGeoCoords();
                  })
                 .catch(function(err) {
                     console.log('Please check your browser\'s location settings.');
-                    getDefaultLocationWeather();
+                    getWeatherByZip();
                 });
         }
 
-        function getDefaultLocationWeather() {
-            weatherService.getByZip('60661')
+        function getWeatherByZip() {
+            var zip = vm.zip | '60661';
+            vm.zipError = false;
+
+            weatherService.getByZip(zip)
                 .then(function(response) {
-                    vm.weatherData = response.data;
-                    vm.latitude = weatherData.city.coord.lat;
-                    vm.longitude = weatherData.city.coord.longitude;
+                    if (response.data.message != 'Error') {
+                        vm.weatherData = response.data;
+                        vm.latitude = vm.weatherData.city.coord.lat;
+                        vm.longitude = vm.weatherData.city.coord.longitude;
+                    } else {
+                        vm.zipError = true;
+                        console.log('Error');
+                    }
                 }).catch(function(error) {
+                    vm.zipError = true;
                     console.log('something bad happened')
                 });
         }
 
-        function getUsersCurrentWeather() {
+        function getWeatherFromUserGeoCoords() {
            weatherService.getByGeoCoords(vm.latitude, vm.longitude)
                 .then(function(response) {
                     vm.weatherData = response.data;

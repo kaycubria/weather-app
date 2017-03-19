@@ -1,4 +1,3 @@
-/* jshint -W117 */
 describe('weatherService', function() {
     'use strict';
 

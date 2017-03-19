@@ -2,8 +2,10 @@
     'use strict';
 
     angular.module('weather', [
+        'ngAnimate',
         'ngRoute',
-        'ngGeolocation'
+        'ngGeolocation',
+        'ui.bootstrap'
         ])
         .config(configure);
 
@@ -11,7 +13,7 @@
         $routeProvider.when('/forecast', {
             templateUrl: 'partials/forecast.html',
             controller: 'ForecastController',
-            controllerAs: 'ForecastVM'
+            controllerAs: 'forecastVM'
         })
         .otherwise({redirectTo: '/forecast'});
     }
