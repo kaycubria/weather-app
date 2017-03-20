@@ -16,6 +16,7 @@
         vm.getLocation = getLocation;
         vm.getWeatherByZip = getWeatherByZip;
         vm.getWeatherFromUserGeoCoords = getWeatherFromUserGeoCoords;
+        vm.parseDate = parseDate;
 
         vm.init();
 
@@ -38,7 +39,7 @@
         }
 
         function getWeatherByZip() {
-            var zip = vm.zip | '60661';
+            var zip = (vm.zip) ? vm.zip : '60661';
             vm.zipError = false;
 
             weatherService.getByZip(zip)
@@ -64,6 +65,10 @@
                 }).catch(function(error) {
                     console.log('something bad happened')
                 });
+        }
+
+        function parseDate(date) {
+            return new Date(date*1000);
         }
     }
 }(angular));

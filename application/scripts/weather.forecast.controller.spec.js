@@ -180,4 +180,16 @@ describe('ForecastController', function() {
             expect(ForecastController.weatherData).toBeUndefined;
         });
     });
+
+    describe('#parseDate()', function() {
+        it('parses millisecond date into a valid date object', function() {
+            var datetime = 1490086800;
+            var expectedDate = new Date(datetime*1000);
+            var beginDate = 0;
+            var expectedBeginDate = new Date(beginDate);
+
+            expect(ForecastController.parseDate(datetime)).toEqual(expectedDate);
+            expect(ForecastController.parseDate(beginDate)).toEqual(expectedBeginDate);
+        });
+    });
 });

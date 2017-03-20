@@ -26,7 +26,7 @@ describe('weatherService', function() {
             var lon = -81;
 
             $httpBackend
-                .expectGET(weatherService.endpoint + '?lat=' + lat + '&lon=' + lon + weatherService.keyParam)
+                .expectGET(weatherService.endpoint + '?lat=' + lat + '&lon=' + lon + weatherService.unitsParam + weatherService.keyParam)
                 .respond(200, mockResponse);
 
             weatherService.getByGeoCoords(lat, lon)
@@ -41,7 +41,7 @@ describe('weatherService', function() {
             var zip = 60661;
 
             $httpBackend
-                .expectGET(weatherService.endpoint + '?zip=' + zip + ',us' + weatherService.keyParam)
+                .expectGET(weatherService.endpoint + '?zip=' + zip + ',us' + weatherService.unitsParam + weatherService.keyParam)
                 .respond(200, mockResponse);
 
             weatherService.getByZip(zip)
