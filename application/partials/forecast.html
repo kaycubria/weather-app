@@ -8,10 +8,10 @@
                 <form class="form-inline" name="zip">
                     <div class="form-group">
                         <label>Zipcode:</label>
-                        <input type="text" ng-model="forecastVM.zip" class="form-control" id="input" maxlength="5" name="input" ng-pattern="forecastVM.zipRegex">
+                        <input type="text" ng-model="forecastVM.zip" ng-change="forecastVM.zipError=false" class="form-control" id="input" maxlength="5" name="input" ng-pattern="forecastVM.zipRegex">
                     </div>
-                    <button class="btn btn-default" ng-click="forecastVM.getWeatherByZip()">Submit</button>
-                    <p class="text-danger" ng-show="zip.input.$error.pattern && zip.input.$touched">Please enter a valid U.S. zipcode.</p>
+                    <button class="btn btn-default" ng-disabled="zip.input.$error.pattern" ng-click="forecastVM.getWeatherByZip()">Submit</button>
+                    <p class="text-danger" ng-show="(zip.input.$error.pattern && zip.input.$touched) || forecastVM.zipError">Please enter a valid U.S. zipcode.</p>
                 </form>
             </div>
         </div>
@@ -19,7 +19,31 @@
             <div class="loading"></div>
         </div>
         <div class="data-arrived col-xs-12" ng-if="forecastVM.weatherData">
-            <h3>{{forecastVM.weatherData}}</h3>
+            <div class="forecast-meta-inf text-center">
+                <h3>Weather in {{forecastVM.weatherData.city.name}}</h3>
+                <div class="text-info">
+                    <span>Search for weather in another U.S. location using the zipcode search menu bar.</span>
+                </div>
+            </div>
+            <div class="col-md-8 col-md-offset-2">
+                <div class="weather-data panel col-md-8 col-md-offset-2 text-center" ng-repeat="forecast in forecastVM.weatherData.list">
+                    <div class="bg-info forecast-date-time">
+                        <h4>{{ forecastVM.parseDate(forecast.dt) | date : 'EEEE @ h a' }}</h4>
+                    </div>
+                    <div>
+                        <span>{{ forecastVM.parseTime(forecast.dt); }}</span>
+                    </div>
+                    <div>
+                        <strong>{{ forecast.main.temp }} F</strong>
+                    </div>
+                    <div>
+                        <img ng-src="http://openweathermap.org/img/w/{{forecast.weather[0].icon}}.png" alt='Icon depicting current weather.'>
+                    </div>
+                    <div>
+                        <span>{{ forecast.weather[0].description }}</span>
+                    </div>
+                </div>
+            </div>
         </div>
     <div>
 </div>

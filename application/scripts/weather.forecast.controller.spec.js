@@ -2,7 +2,6 @@ describe('ForecastController', function() {
     'use strict';
 
     var defer;
-    var promise;
     var scope;
     var $geolocation;
     var weatherService;
@@ -25,7 +24,7 @@ describe('ForecastController', function() {
         weatherService = {
             getByGeoCoords: promise,
             getByZip: promise
-        }
+        };
 
         spyOn($geolocation, 'getCurrentPosition').and.callThrough();
         spyOn(weatherService, 'getByGeoCoords').and.callThrough();
@@ -41,7 +40,7 @@ describe('ForecastController', function() {
 
     describe('#init()', function() {
         it('calls geolocation service', function(done) {
-            $geolocation.getCurrentPosition(done())
+            $geolocation.getCurrentPosition(done());
             ForecastController.init();
 
             expect($geolocation.getCurrentPosition).toHaveBeenCalled();
@@ -59,8 +58,8 @@ describe('ForecastController', function() {
                 }
             };
 
-            $rootScope.$apply(function(){locationPromise.resolve(response)});
-            $rootScope.$apply(function(){weatherPromise.resolve()});
+            $rootScope.$apply(function() { locationPromise.resolve(response) });
+            $rootScope.$apply(function() { weatherPromise.resolve() });
 
             ForecastController.getLocation();
 
@@ -99,7 +98,7 @@ describe('ForecastController', function() {
                 }
             };
 
-            $rootScope.$apply(function(){weatherPromise.resolve(response)});
+            $rootScope.$apply(function() { weatherPromise.resolve(response) });
 
             ForecastController.getWeatherByZip();
 
@@ -122,7 +121,7 @@ describe('ForecastController', function() {
                 }
             };
 
-            $rootScope.$apply(function(){weatherPromise.resolve(response)});
+            $rootScope.$apply(function() { weatherPromise.resolve(response) });
 
             ForecastController.getWeatherByZip();
 
@@ -135,7 +134,7 @@ describe('ForecastController', function() {
         it('sets an error when the call fails', function(done) {
             var weatherPromise = weatherService.getByZip(done());
 
-            $rootScope.$apply(function(){weatherPromise.reject()});
+            $rootScope.$apply(function() { weatherPromise.reject() });
 
             ForecastController.getWeatherByZip();
 
@@ -162,7 +161,7 @@ describe('ForecastController', function() {
                 }
             };
 
-            $rootScope.$apply(function(){weatherPromise.resolve(response)});
+            $rootScope.$apply(function() { weatherPromise.resolve(response) });
 
             ForecastController.getWeatherFromUserGeoCoords();
 
@@ -172,12 +171,24 @@ describe('ForecastController', function() {
         it('does not set weather data when the call to the weather service fails', function(done) {
             var weatherPromise = weatherService.getByGeoCoords(done());
 
-            $rootScope.$apply(function(){weatherPromise.reject()});
+            $rootScope.$apply(function() { weatherPromise.reject() });
 
             ForecastController.getWeatherFromUserGeoCoords();
 
             expect(weatherPromise.getByGeoCoords).toHaveBeenCalled();
             expect(ForecastController.weatherData).toBeUndefined;
+        });
+    });
+
+    describe('#parseDate()', function() {
+        it('parses millisecond date into a valid date object', function() {
+            var datetime = 1490086800;
+            var expectedDate = new Date(datetime*1000);
+            var beginDate = 0;
+            var expectedBeginDate = new Date(beginDate);
+
+            expect(ForecastController.parseDate(datetime)).toEqual(expectedDate);
+            expect(ForecastController.parseDate(beginDate)).toEqual(expectedBeginDate);
         });
     });
 });

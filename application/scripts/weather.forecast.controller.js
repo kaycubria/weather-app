@@ -10,12 +10,13 @@
         vm.latitude;
         vm.longitude;
         vm.weatherData;
-        vm.zipRegex = new RegExp(/^\d{5}$/)
+        vm.zipRegex = new RegExp(/^\d{5}$/);
 
         vm.init = init;
         vm.getLocation = getLocation;
         vm.getWeatherByZip = getWeatherByZip;
         vm.getWeatherFromUserGeoCoords = getWeatherFromUserGeoCoords;
+        vm.parseDate = parseDate;
 
         vm.init();
 
@@ -38,7 +39,7 @@
         }
 
         function getWeatherByZip() {
-            var zip = vm.zip | '60661';
+            var zip = (vm.zip) ? vm.zip : '60661';
             vm.zipError = false;
 
             weatherService.getByZip(zip)
@@ -49,11 +50,11 @@
                         vm.longitude = vm.weatherData.city.coord.longitude;
                     } else {
                         vm.zipError = true;
-                        console.log('Error');
+                        console.log('Error: data came back in a bad state.');
                     }
                 }).catch(function(error) {
                     vm.zipError = true;
-                    console.log('something bad happened')
+                    console.log('Error: something bad happened when calling for forecast data by zipcode.');
                 });
         }
 
@@ -62,8 +63,12 @@
                 .then(function(response) {
                     vm.weatherData = response.data;
                 }).catch(function(error) {
-                    console.log('something bad happened')
+                    console.log('Error: something bad happened when calling for forecast data by geo coordinates.');
                 });
+        }
+
+        function parseDate(date) {
+            return new Date(date*1000);
         }
     }
 }(angular));

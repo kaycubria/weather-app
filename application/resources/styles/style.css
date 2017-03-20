@@ -22,9 +22,20 @@ body {
 
 .top-bar {
     background-color: #d4e2f4;
-    padding: 10px;
+    padding: 15px;
 }
 
 .zip-form {
     margin-top: -35px;
+}
+
+.weather-data {
+    margin-top: 20px;
+    padding-bottom: 20px;
+}
+
+.forecast-date-time {
+    margin-bottom: 10px;
+    padding: 1px;
+    border: 2px;
 }
